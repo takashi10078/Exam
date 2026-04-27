@@ -28,7 +28,7 @@ public class ClassNumDao extends Dao {
 
             if (rSet.next()) {
                 classNum = new ClassNum();
-                classNum.setClass_num(rSet.getString("class_num"));
+                classNum.setClassNum(rSet.getString("class_num"));
                 classNum.setSchool(school); // ← 常にセット
             }
 
@@ -77,7 +77,7 @@ public class ClassNumDao extends Dao {
                 "insert into class_num(class_num, school_cd) values(?, ?)"
             );
 
-            statement.setString(1, classNum.getClass_num());
+            statement.setString(1, classNum.getClassNum());
             statement.setString(2, classNum.getSchool().getCd());
 
             count = statement.executeUpdate();
@@ -102,7 +102,7 @@ public class ClassNumDao extends Dao {
             statement = connection.prepareStatement(sql);
 
             statement.setString(1, newClassNum);
-            statement.setString(2, classNum.getClass_num());
+            statement.setString(2, classNum.getClassNum());
             statement.setString(3, classNum.getSchool().getCd());
 
             count += statement.executeUpdate();
@@ -114,7 +114,7 @@ public class ClassNumDao extends Dao {
             statement = connection.prepareStatement(sql);
 
             statement.setString(1, newClassNum);
-            statement.setString(2, classNum.getClass_num());
+            statement.setString(2, classNum.getClassNum());
             statement.setString(3, classNum.getSchool().getCd());
 
             count += statement.executeUpdate();
