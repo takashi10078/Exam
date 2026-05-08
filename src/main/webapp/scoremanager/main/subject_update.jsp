@@ -17,6 +17,11 @@
 					<label for="cd">科目コード</label><br>
 					<input class="border border-0 ps-3" type="text" id="cd" name="cd" value = "${subject.cd }" readonly />
 				</div>
+				<c:if test = "${error != null }">
+				<div class = "text-danger mt-2">
+				${error}
+				</div>
+				</c:if>
 				<div>
 					<label for="name">科目名</label><br>
 					<input class="form-control" type="text" id="name" name="name"value = "${subject.name }" required maxlength="20" placeholder="科目名を入力してください" />

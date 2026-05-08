@@ -12,14 +12,26 @@
 	<c:param name="content">
 		<section>
 			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">科目情報登録</h2>
-			<form action="SubjectCreateExecute.action" method="get">
+			<form action="SubjectCreateExecute.action" method="get" >
 				<div>
 					<label for="cd">科目コード</label><br>
-					<input class="form-control" type="text" id="cd" name="cd" required maxlength="3" placeholder="科目コードを入力してください" />
+					<input class="form-control" type="text" id="cd" name="cd" value= "${cd}"  placeholder="科目コードを入力してください" />
+					
+					<c:if test = "${lengthError != null }">
+					<div class = "text-danger">
+					${lengthError}
+					</div>
+					</c:if>
+					
+					<c:if test = "${duplicateError != null }">
+					<div class = "text-danger">
+					${duplicateError}
+					</div>
+					</c:if>
 				</div>
 				<div>
-					<label for="name">科目名"</label><br>
-					<input class="form-control" type="text" id="name" name="name" required maxlength="20" placeholder="科目名を入力してください" />
+					<label for="name">科目名</label><br>
+					<input class="form-control" type="text" id="name" name="name" value = "${name}" required maxlength="20" placeholder="科目名を入力してください" />
 				</div>
 				<div class="mx-auto py-2">
 					<button class="btn btn-secondary" id="create-button" name="end">登録</button>
