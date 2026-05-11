@@ -18,7 +18,7 @@
 				成績一覧（科目）
 			</h2>
 			
-			<%-- 検索フォームエリア（元のコードを維持） --%>
+			<%-- 検索フォームエリア --%>
 			<div class="border rounded p-4 mb-4">
 				
 				<%-- 科目情報フォーム --%>
@@ -34,7 +34,7 @@
 							<div class="row">
 								<div class="col-4">
 									<label class="form-label small">入学年度</label>
-									<select name="f1" class="form-select" required>
+									<select name="f1" class="form-select" >
 										<option value="">--------</option>
 										<c:forEach var="year" items="${ent_year_set}">
 											<option value="${year}" <c:if test="${year == f1}">selected</c:if>>${year}</option>
@@ -43,7 +43,7 @@
 								</div>
 								<div class="col-4">
 									<label class="form-label small">クラス</label>
-									<select name="f2" class="form-select" required>
+									<select name="f2" class="form-select" >
 										<option value="">--------</option>
 										<c:forEach var="num" items="${class_num_set}">
 											<option value="${num}" <c:if test="${num == f2}">selected</c:if>>${num}</option>
@@ -52,7 +52,7 @@
 								</div>
 								<div class="col-4">
 									<label class="form-label small">科目</label>
-									<select name="f3" class="form-select" required>
+									<select name="f3" class="form-select" >
 										<option value="">--------</option>
 										<c:forEach var="subject" items="${subject_set}">
 											<option value="${subject.cd}" <c:if test="${subject.cd == f3}">selected</c:if>>${subject.name}</option>
@@ -67,6 +67,12 @@
 						</div>
 					</div>
 				</form>
+				
+				<c:if test="${error != null}">
+				    <p class="text-warning small mt-2 ms-5">
+				        ${error}
+				    </p>
+				</c:if>
 
 				<hr class="my-4 text-secondary opacity-25">
 
@@ -108,7 +114,7 @@
 				<c:choose>
 					<c:when test="${tests != null && tests.size() > 0}">
 						
-						<%-- 画像の「科目：〇〇」という表示を再現 --%>
+				
 						<c:if test="${subject != null}">
 							<div class="mb-3 px-2">科目：${subject.name}</div>
 						</c:if>

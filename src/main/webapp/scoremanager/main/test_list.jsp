@@ -23,53 +23,59 @@
 				
 				<%-- 科目情報フォーム --%>
 				<form action="TestListSubjectExecute.action" method="get" class="mb-4">
-					<input type="hidden" name="f" value="sj">
-					
-					<div class="row align-items-center">
-						<%-- 左側：項目名 --%>
-						<div class="col-2">
-							<p class="mb-0 text-center">科目情報</p>
-						</div>
-						
-						<%-- 中央：セレクトボックス群 --%>
-						<div class="col-8">
-							<div class="row">
-								<div class="col-4">
-									<label class="form-label small">入学年度</label>
-									<select name="f1" class="form-select" required>
-										<option value="">--------</option>
-										<c:forEach var="year" items="${ent_year_set}">
-											<option value="${year}" <c:if test="${year == f1}">selected</c:if>>${year}</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="col-4">
-									<label class="form-label small">クラス</label>
-									<select name="f2" class="form-select" required>
-										<option value="">--------</option>
-										<c:forEach var="num" items="${class_num_set}">
-											<option value="${num}" <c:if test="${num == f2}">selected</c:if>>${num}</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="col-4">
-									<label class="form-label small">科目</label>
-									<select name="f3" class="form-select" required>
-										<option value="">--------</option>
-										<c:forEach var="subject" items="${subject_set}">
-											<option value="${subject.cd}" <c:if test="${subject.cd == f3}">selected</c:if>>${subject.name}</option>
-										</c:forEach>
-									</select>
-								</div>
-							</div>
-						</div>
-
-						<%-- 右側：ボタン --%>
-						<div class="col-2 text-end">
-							<button type="submit" class="btn btn-secondary px-4">検索</button>
-						</div>
-					</div>
+				    <input type="hidden" name="f" value="sj">
+				    
+				    <div class="row align-items-center">
+				        <%-- 左側：項目名 --%>
+				        <div class="col-2">
+				            <p class="mb-0 text-center">科目情報</p>
+				        </div>
+				        
+				        <%-- 中央：セレクトボックス群とエラー表示 --%>
+				        <div class="col-8">
+				            <div class="row">
+				                <div class="col-4">
+				                    <label class="form-label small">入学年度</label>
+				                    <select name="f1" class="form-select">
+				                        <option value="">--------</option>
+				                        <c:forEach var="year" items="${ent_year_set}">
+				                            <option value="${year}" <c:if test="${year == f1}">selected</c:if>>${year}</option>
+				                        </c:forEach>
+				                    </select>
+				                </div>
+				                <div class="col-4">
+				                    <label class="form-label small">クラス</label>
+				                    <select name="f2" class="form-select">
+				                        <option value="">--------</option>
+				                        <c:forEach var="num" items="${class_num_set}">
+				                            <option value="${num}" <c:if test="${num == f2}">selected</c:if>>${num}</option>
+				                        </c:forEach>
+				                    </select>
+				                </div>
+				                <div class="col-4">
+				                    <label class="form-label small">科目</label>
+				                    <select name="f3" class="form-select">
+				                        <option value="">--------</option>
+				                        <c:forEach var="subject" items="${subject_set}">
+				                            <option value="${subject.cd}" <c:if test="${subject.cd == f3}">selected</c:if>>${subject.name}</option>
+				                        </c:forEach>
+				                    </select>
+				                </div>
+				            </div>
+				        </div>
+				        
+				        <%-- 右側：ボタン --%>
+				        <div class="col-2 text-end">
+				            <button type="submit" class="btn btn-secondary px-4">検索</button>
+				        </div>
+				    </div>
 				</form>
+				
+				<c:if test="${error != null}">
+				    <p class="text-warning small mt-2 ms-5">
+				        ${error}
+				    </p>
+				</c:if>
 
 				<%-- 区切り線 --%>
 				<hr class="my-4 text-secondary opacity-25">
@@ -146,10 +152,6 @@
 						</table>
 					</c:when>
 					
-					<c:when test="${tests != null}">
-						<%-- 検索したが結果が0件の場合 --%>
-						<div class="px-2">成績情報が存在しませんでした。</div>
-					</c:when>
 
 					<c:otherwise>
 						<%-- 初期状態 --%>

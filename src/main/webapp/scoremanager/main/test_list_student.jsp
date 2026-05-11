@@ -14,16 +14,23 @@
 
 		<section class="me-4">
 
-			<%-- タイトルを画像に合わせて動的に変更 --%>
-			<h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">
-				<c:choose>
-					<c:when test="${student != null}">成績一覧（学生）</c:when>
-					<c:when test="${subject != null}">成績一覧（科目）</c:when>
-					<c:otherwise>成績参照</c:otherwise>
-				</c:choose>
-			</h2>
+
+		<h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">
+		    <c:choose>
+		
+		        <%-- 学生検索時 --%>
+		        <c:when test="${f4 != null && f4 != ''}">成績一覧（学生）</c:when>
+		
+		        <%-- 科目検索時 --%>
+		        <c:when test="${subject != null}">成績一覧（科目）</c:when>
+		
+		        <%-- 初期表示 --%>
+		        <c:otherwise>成績参照</c:otherwise>
+		
+		    </c:choose>
+		</h2>
 			
-			<%-- 検索フォームエリア（変更なし） --%>
+			<%-- 検索フォームエリア --%>
 			<div class="border rounded p-4 mb-4">
 				
 				<%-- 科目情報フォーム --%>
@@ -41,7 +48,7 @@
 							<div class="row">
 								<div class="col-4">
 									<label class="form-label small">入学年度</label>
-									<select name="f1" class="form-select" required>
+									<select name="f1" class="form-select">
 										<option value="">--------</option>
 										<c:forEach var="year" items="${ent_year_set}">
 											<option value="${year}" <c:if test="${year == f1}">selected</c:if>>${year}</option>
@@ -50,7 +57,7 @@
 								</div>
 								<div class="col-4">
 									<label class="form-label small">クラス</label>
-									<select name="f2" class="form-select" required>
+									<select name="f2" class="form-select">
 										<option value="">--------</option>
 										<c:forEach var="num" items="${class_num_set}">
 											<option value="${num}" <c:if test="${num == f2}">selected</c:if>>${num}</option>
@@ -59,7 +66,7 @@
 								</div>
 								<div class="col-4">
 									<label class="form-label small">科目</label>
-									<select name="f3" class="form-select" required>
+									<select name="f3" class="form-select">
 										<option value="">--------</option>
 										<c:forEach var="subject" items="${subject_set}">
 											<option value="${subject.cd}" <c:if test="${subject.cd == f3}">selected</c:if>>${subject.name}</option>
@@ -75,6 +82,12 @@
 						</div>
 					</div>
 				</form>
+				
+				<c:if test="${error != null}">
+				    <p class="text-warning small mt-2 ms-5">
+				        ${error}
+				    </p>
+				</c:if>
 
 				<%-- 区切り線 --%>
 				<hr class="my-4 text-secondary opacity-25">
@@ -117,19 +130,15 @@
 
 			<%-- 結果表示エリア --%>
 			<div class="mt-4 px-2">
+							
 				<c:choose>
 					<%-- 1. 検索結果がある場合 --%>
 					<c:when test="${tests != null && tests.size() > 0}">
 						
-						<%-- 学生別検索時に氏名を表示（画像のレイアウト） --%>
-						<c:if test="${student != null}">
-							<div class="mb-3 px-2">氏名：${student.name}（${student.no}）</div>
-						</c:if>
-
 						<table class="table table-hover">
 							<thead>
 								<c:choose>
-									<%-- 学生別検索（今回の画像） --%>
+									<%-- 学生別検索 --%>
 									<c:when test="${student != null}">
 										<tr>
 											<th>科目名</th>
@@ -180,7 +189,27 @@
 					
 					<%-- 2. 検索結果0件 --%>
 					<c:when test="${tests != null}">
-						<div class="px-2">成績情報が存在しませんでした。</div>
+					
+					    <c:choose>
+					
+					        <c:when test="${student != null}">
+					            <div class="mb-3 px-2">
+					                氏名：${student.name}（${student.no}）
+					            </div>
+					        </c:when>
+					
+					        <c:otherwise>
+					            <div class="mb-3 px-2">
+					                氏名：xxxx（${f4}）
+					            </div>
+					        </c:otherwise>
+					
+					    </c:choose>
+					
+					    <div class="px-2">
+					        成績情報が存在しませんでした。
+					    </div>
+					
 					</c:when>
 
 					<%-- 3. 初期状態 --%>
