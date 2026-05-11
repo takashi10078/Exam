@@ -55,7 +55,14 @@ public class ClassNumDao extends Dao {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                list.add(resultSet.getString("class_num"));
+
+                String classNum = resultSet.getString("class_num");
+
+                if (classNum != null) {
+                    classNum = classNum.trim();
+                }
+
+                list.add(classNum);
             }
 
         } finally {
