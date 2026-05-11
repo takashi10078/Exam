@@ -53,7 +53,7 @@ public class TestListSubjectExecuteAction extends Action {
         LocalDate todaysDate = LocalDate.now();
         int year = todaysDate.getYear();
         List<Integer> entYearSet = new ArrayList<>();
-        for (int i = year - 10; i <= year; i++) {
+        for (int i = year - 10; i < year+11; i++) {
             entYearSet.add(i);
         }
         List<String> classNumList = classNumDao.filter(teacher.getSchool());
@@ -69,11 +69,12 @@ public class TestListSubjectExecuteAction extends Action {
 
         // 4. バリデーションチェック
         if (entYear == 0 || classNum == null || classNum.equals("") || subjectCd == null || subjectCd.equals("")) {
-            // パラメータが足りない場合は検索を行わず、メッセージを表示
+
             if (entYearStr != null) {
                 req.setAttribute("error", "入学年度とクラスと科目を選択してください");
             }
-            req.getRequestDispatcher("test_list_subject.jsp").forward(req, res);
+
+            req.getRequestDispatcher("test_list.jsp").forward(req, res);
             return;
         }
 

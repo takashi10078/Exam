@@ -50,7 +50,7 @@ public class TestRegistAction extends Action {
 		// ビジネスロジック 4
 		// 入学年度リスト作成
 		List<Integer> entYearSet = new ArrayList<>();
-		for (int i = year; i >= year - 10; i--) {
+		for (int i = year+10; i >= year - 10; i--) {
 			entYearSet.add(i);
 		}
 

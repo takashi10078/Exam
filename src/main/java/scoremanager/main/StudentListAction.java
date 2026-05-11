@@ -51,7 +51,7 @@ public class StudentListAction extends Action {
 
 		// 入学年度リスト作成
 		List<Integer> entYearSet = new ArrayList<>();
-		for (int i = year - 10; i < year + 1; i++) {
+		for (int i = year - 10; i < year + 11; i++) {
 			entYearSet.add(i);
 		}
 

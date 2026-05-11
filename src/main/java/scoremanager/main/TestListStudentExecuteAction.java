@@ -53,7 +53,7 @@ public class TestListStudentExecuteAction extends Action {
         java.time.LocalDate todaysDate = java.time.LocalDate.now();
         int year = todaysDate.getYear();
         java.util.List<Integer> entYearSet = new java.util.ArrayList<>();
-        for (int i = year - 10; i <= year; i++) {
+        for (int i = year - 10; i < year+11; i++) {
             entYearSet.add(i);
         }
         req.setAttribute("ent_year_set", entYearSet);
