@@ -7,7 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+//「.action」で終わるurlをこのservletで受け取る
 @WebServlet(urlPatterns = { "*.action" })
 public class FrontController extends HttpServlet {
 
@@ -16,8 +16,10 @@ public class FrontController extends HttpServlet {
 		try {
 			// パスを取得
 			String path = req.getServletPath().substring(1);
+			
 			// ファイル名を取得しクラス名に変換
 			String name = path.replace(".a", "A").replace('/', '.');
+			
 			// アクションクラスのインスタンスを返却
 			Action action = (Action) Class.forName(name).getDeclaredConstructor().newInstance();
 

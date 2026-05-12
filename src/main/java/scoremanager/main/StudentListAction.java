@@ -23,7 +23,7 @@ public class StudentListAction extends Action {
 		HttpSession session = req.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");
 
-		// ローカル変数の指定 1
+		// ローカル変数の指定 
 		String entYearStr = ""; // 入力された入学年度
 		String classNum = ""; // 入力されたクラス番号
 		String isAttendStr = ""; // 入力された在学フラグ
@@ -36,12 +36,12 @@ public class StudentListAction extends Action {
 		ClassNumDao classNumDao = new ClassNumDao();
 		Map<String, String> errors = new HashMap<>();
 
-		// リクエストパラメーターの取得 2
+		// リクエストパラメーターの取得 
 		entYearStr = req.getParameter("f1");
 		classNum = req.getParameter("f2");
 		isAttendStr = req.getParameter("f3");
 
-		// ビジネスロジック 4
+		// ビジネスロジック 
 		if (entYearStr != null && !entYearStr.equals("")) {
 			entYear = Integer.parseInt(entYearStr);
 		}
@@ -55,7 +55,7 @@ public class StudentListAction extends Action {
 			entYearSet.add(i);
 		}
 
-		// DBからデータ取得 3
+		// DBからデータ取得 
 		List<String> list = classNumDao.filter(teacher.getSchool());
 
 		if (entYear != 0 && classNum != null && !classNum.equals("0")) {
@@ -71,24 +71,24 @@ public class StudentListAction extends Action {
 			students = studentDao.filter(teacher.getSchool(), isAttend);
 
 		} else {
+			//error の表示設定
 			errors.put("f1", "クラスを指定する場合は入学年度も指定してください");
 			req.setAttribute("errors", errors);
 			students = studentDao.filter(teacher.getSchool(), isAttend);
 		}
 
-		// レスポンス値をセット 6
+		// レスポンス値をセット 
 		req.setAttribute("f1", entYear);
 		req.setAttribute("f2", classNum);
 
 		if (isAttendStr != null) {
 			req.setAttribute("f3", isAttendStr);
 		}
-
 		req.setAttribute("students", students);
 		req.setAttribute("class_num_set", list);
 		req.setAttribute("ent_year_set", entYearSet);
 
-		// JSPへフォワード 7
+		// JSPへフォワード 
 		req.getRequestDispatcher("student_list.jsp").forward(req, res);
 	}
 }

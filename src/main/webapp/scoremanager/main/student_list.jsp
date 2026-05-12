@@ -1,61 +1,107 @@
 <%-- 学生一覧JSP --%>
+
+<%--JSPの基本設定 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" %>
+
+<%--JSTLを使うための設定 --%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+
+<%--共通レイアウトを読み込む --%>
 <c:import url="/common/base.jsp" >
+
+	<%--ページタイトルをbase.jspへ渡す --%>
 	<c:param name="title">
 		得点管理システム
 	</c:param>
-
+	
+	<%--JavaScript用 --%>
 	<c:param name="scripts"></c:param>
 
+	<%--メインコンテンツ開始 --%>
 	<c:param name="content">
-		<section class="me=4">
+		<section class="me-4">
+		 	<%--画面タイトル --%>
 			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">学生管理</h2>
+			
+			<%--新規登録リンク --%>
 			<div class="my-2 text-end px-4">
 				<a href="StudentCreate.action">新規登録</a>
 			</div>
+			
+			<%--検索フォーム --%>
 			<form method="get">
+			
+				<%--検索条件エリア --%>
 				<div class="row border mx-3 mb-3 py-2 align-items-center rounded" id="filter">
+				
+					<%--入学年度選択 --%>
 					<div class="col-4">
 						<label class="form-label" for="student-f1-select">入学年度</label>
 						<select class="form-select" id="student-f1-select" name="f1">
+						
+							<%--未選択用option --%>
 							<option value="0">--------</option>
+							
+							<%--入学年一覧を表示 --%>
 							<c:forEach var="year" items="${ent_year_set }">
-								<%-- 現在のyearと選択されていたf1が一致していた場合selectedを追記 --%>
+							
+								<%--選択されていた年度を保持 --%>
 								<option value="${year }" <c:if test="${year==f1 }">selected</c:if>>${year }</option>
 							</c:forEach>
 						</select>
 					</div>
+					
+					<%--クラス選択 --%>
 					<div class="col-4">
 						<label class="form-label" for="student-f2-select">クラス</label>
 						<select class="form-select" id="student-f2-select" name="f2">
+						
+							<%--未選択用option --%>
 							<option value="0">--------</option>
+							
+							<%--クラス一覧を表示 --%>
 							<c:forEach var="num" items="${class_num_set }">
-								<%-- 現在のnumと選択されていたf2が一致していた場合selectedを追記 --%>
+							
+								<%--選択されていたクラスを保持 --%>
 								<option value="${num }" <c:if test="${num==f2 }">selected</c:if>>${num }</option>
 							</c:forEach>
 						</select>
 					</div>
+					
+					<%--在学中チェックボックス --%>
 					<div class="col-2 form-check text-center">
 						<label class="form-check-label" for="student-f3-check">在学中
+						
 							<%-- パラメーターf3が存在している場合checkedを追記 --%>
 							<input class="form-check-input" type="checkbox"
 							id="student-f3-check" name="f3" value="t"
+							
+							 <%--チェック状態を保持 --%>
 							<c:if test="${!empty f3 }">checked</c:if> />
 						</label>
 					</div>
+					
+					<%--絞込みボタン --%>
 					<div class="col-2 text-center">
 						<button class="btn btn-secondary" id="filter-button">絞込み</button>
 					</div>
+					
+					<%--エラーメッセージ表示 --%>
 					<div class="mt-2 text-warning">${errors.get("f1") }</div>
 				</div>
 			</form>
 
-
+			<%--学生データ有無の判定 --%>
 			<c:choose>
+			
+				<%--学生データが1件以上ある場合 --%>
 				<c:when test="${students.size()>0 }">
+				
+					<%--件数表示 --%>
 					<div>検索結果：${students.size() }件</div>
+					
+					<%--学生一覧テーブル --%>
 					<table class="table table-hover">
 						<tr>
 							<th>入学年度</th>
@@ -66,6 +112,8 @@
 							<th></th>
 							<th></th>
 						</tr>
+						
+						<%--学生一覧ループ --%>
 						<c:forEach var="student" items="${students }">
 							<tr>
 								<td>${student.entYear }</td>
@@ -83,6 +131,8 @@
 										</c:otherwise>
 									</c:choose>
 								</td>
+								
+								<%--学生変更画面へのリンク --%>
 								<td><a href="StudentUpdate.action?no=${student.no }">変更</a></td>
 							</tr>
 						</c:forEach>

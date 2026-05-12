@@ -3,13 +3,12 @@ package scoremanager.main;
 import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
 import bean.Student;
 import bean.Teacher;
 import dao.StudentDao;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class StudentCreateExecuteAction extends Action {
@@ -17,7 +16,7 @@ public class StudentCreateExecuteAction extends Action {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		// ローカル変数の指定 1
+		// ローカル変数の指定 
 		HttpSession session = req.getSession(); // セッション
 		Teacher teacher = (Teacher)session.getAttribute("user");
 		int ent_year = 0; // 選択された入学年度
@@ -28,16 +27,13 @@ public class StudentCreateExecuteAction extends Action {
 		StudentDao studentDao = new StudentDao();
 		Map<String, String> errors = new HashMap<>(); // エラーメッセージ
 
-		// リクエストパラメーターの取得 2
+		// リクエストパラメーターの取得 
 		ent_year = Integer.parseInt(req.getParameter("ent_year"));
 		student_no = req.getParameter("no");
 		student_name = req.getParameter("name");
 		class_num = req.getParameter("class_num");
 
-		// DBからデータ取得 3
-		// なし
-
-		// ビジネスロジック 4
+		// ビジネスロジック 
 		if (ent_year == 0) { // 入学年度が未選択だった場合
 			errors.put("1", "入学年度を選択してください");
 			// リクエストにエラーメッセージをセット
@@ -60,7 +56,7 @@ public class StudentCreateExecuteAction extends Action {
 			}
 		}
 
-		// レスポンス値をセット 6
+		// レスポンス値をセット 
 		// リクエストに入学年度をセット
 		req.setAttribute("ent_year", ent_year);
 		// リクエストに学生番号をセット
@@ -70,7 +66,7 @@ public class StudentCreateExecuteAction extends Action {
 		// リクエストにクラス番号をセット
 		req.setAttribute("class_num", class_num);
 
-		// JSPへフォワード 7
+		// JSPへフォワード 
 		if (errors.isEmpty()) { // エラーメッセージがない場合
 			// 登録完了画面にフォワード
 			req.getRequestDispatcher("student_create_done.jsp").forward(req, res);
