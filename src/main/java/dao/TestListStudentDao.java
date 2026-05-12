@@ -11,6 +11,7 @@ import bean.TestListStudent;
 
 public class TestListStudentDao extends Dao {
 
+	//SQL文の定義
     private String baseSql = 
         "select t.subject_cd, sub.name as subject_name, t.no as count, t.point " +
         "from test t " +

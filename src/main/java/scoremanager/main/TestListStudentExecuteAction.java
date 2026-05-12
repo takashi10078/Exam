@@ -20,7 +20,7 @@ public class TestListStudentExecuteAction extends Action {
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
 
-        // 1. ローカル変数の初期化
+        // ローカル変数の初期化
         String studentNo = "";
         List<TestListStudent> list = new java.util.ArrayList<>();
         Student student = null;
@@ -28,10 +28,10 @@ public class TestListStudentExecuteAction extends Action {
         StudentDao studentDao = new StudentDao();
         TestListStudentDao testListStudentDao = new TestListStudentDao();
 
-        // 2. リクエストパラメーターの取得
+        // リクエストパラメーターの取得
         studentNo = req.getParameter("f4"); // JSPのname="f4"（学生番号）
 
-        // 3. ビジネスロジック・DBからデータ取得
+        // ビジネスロジック・DBからデータ取得
         if (studentNo != null && !studentNo.equals("")) {
             // 学生情報を取得
             student = studentDao.get(studentNo);
@@ -45,7 +45,7 @@ public class TestListStudentExecuteAction extends Action {
             }
         }
 
-        // 4. レスポンス値をセット
+        // レスポンス値をセット
         req.setAttribute("f4", studentNo); // 入力値の保持用
         req.setAttribute("student", student);
         req.setAttribute("tests", list);
@@ -68,7 +68,7 @@ public class TestListStudentExecuteAction extends Action {
         java.util.List<bean.Subject> subjectList = subjectDao.filter(teacher.getSchool());
         req.setAttribute("subject_set", subjectList);
 
-        // 5. JSPへフォワード
+        // JSPへフォワード
         req.getRequestDispatcher("test_list_student.jsp").forward(req, res);
     }
 }
