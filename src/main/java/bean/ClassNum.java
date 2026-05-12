@@ -20,7 +20,9 @@ public class ClassNum implements Serializable {
     public String getClassNum() {
         return classNum;
     }
-
+    /**
+     * セッタ
+     */
     public void setClassNum(String classNum) {
         this.classNum = classNum;
     }
