@@ -1,11 +1,17 @@
 package scoremanager.main;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bean.Score;
+import bean.Subject;
 import bean.Teacher;
-import dao.ScoreDao;
+import dao.ClassNumDao;
+import dao.SubjectDao;
+import dao.TestDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -24,9 +30,10 @@ public class TestRegistExecuteAction extends Action {
 		String classNum = "";
 		int entYear = 0;
 		int no = 1;
-		ScoreDao scoreDao = new ScoreDao();
+		TestDao testDao = new TestDao();
+		SubjectDao subjectDao = new SubjectDao();
+		ClassNumDao classNumDao = new ClassNumDao();
 		List<Score> savedList = new ArrayList<>();
-		List<String> errors = new ArrayList<>();
 
 		// リクエストパラメーターの取得 2
 		subjectCd = req.getParameter("subject_cd");
@@ -36,11 +43,80 @@ public class TestRegistExecuteAction extends Action {
 		String[] studentNos = req.getParameterValues("student_no");
 
 		// ビジネスロジック 4
+		// 入力された点数を一時保存（エラー時に値を保持するため）
+		Map<String, String> inputPoints = new HashMap<>();
+		boolean hasError = false;
+
 		if (studentNos != null) {
 			for (String studentNo : studentNos) {
 				String pointStr = req.getParameter("point_" + studentNo);
+				if (pointStr == null || pointStr.equals("")) {
+					inputPoints.put(studentNo, "");
+					continue;
+				}
+				inputPoints.put(studentNo, pointStr);
+				int point = Integer.parseInt(pointStr);
+				if (point < 0 || point > 100) {
+					hasError = true;
+				}
+			}
+		}
 
-				// 空欄はスキップ
+		// エラーがあればtest_regist.jspに戻る
+		if (hasError) {
+			// 科目名を取得
+			String subjectName = "";
+			Subject subject = subjectDao.get(subjectCd, teacher.getSchool());
+			if (subject != null) {
+				subjectName = subject.getName();
+			}
+
+			// 入学年度リスト再構築
+			LocalDate todaysDate = LocalDate.now();
+			int year = todaysDate.getYear();
+			List<Integer> entYearSet = new ArrayList<>();
+			for (int i = year - 10; i <= year + 10; i++) {
+				entYearSet.add(i);
+			}
+
+			// 学生スコアリストを再取得してユーザー入力値を上書き
+			List<Score> scoreList = testDao.getRegistList(teacher.getSchool(), subjectCd, classNum, entYear, no);
+			if (scoreList != null) {
+				for (Score score : scoreList) {
+					String inputVal = inputPoints.get(score.getStudentNo());
+					if (inputVal != null && !inputVal.equals("")) {
+						score.setPoint(Integer.parseInt(inputVal));
+					} else {
+						score.setPoint(-1);
+					}
+				}
+			}
+
+			// ドロップダウン用データも再取得
+			List<Subject> subjectList = subjectDao.filter(teacher.getSchool());
+			List<String> classNumList = classNumDao.filter(teacher.getSchool());
+
+			// レスポンス値をセット（ドロップダウンの選択値も含めて全部渡す）
+			req.setAttribute("subject_list", subjectList);
+			req.setAttribute("class_num_set", classNumList);
+			req.setAttribute("ent_year_set", entYearSet);
+			req.setAttribute("score_list", scoreList);
+			req.setAttribute("sel_subject_cd", subjectCd);
+			req.setAttribute("sel_subject_name", subjectName);
+			req.setAttribute("sel_class_num", classNum);
+			req.setAttribute("sel_ent_year", entYear);
+			req.setAttribute("sel_no", no);
+			req.setAttribute("hasError", true);
+			req.setAttribute("inputPoints", inputPoints);
+
+			req.getRequestDispatcher("test_regist.jsp").forward(req, res);
+			return;
+		}
+
+		// DBへデータ保存 5
+		if (studentNos != null) {
+			for (String studentNo : studentNos) {
+				String pointStr = inputPoints.get(studentNo);
 				if (pointStr == null || pointStr.equals("")) {
 					continue;
 				}
@@ -55,19 +131,13 @@ public class TestRegistExecuteAction extends Action {
 				score.setPoint(point);
 				score.setClassNum(classNum);
 
-				// DBへデータ保存 5
-				scoreDao.save(score);
+				testDao.save(score);
 				savedList.add(score);
 			}
 		}
 
 		// レスポンス値をセット 6
 		req.setAttribute("saved_list", savedList);
-		req.setAttribute("errors", errors);
-		req.setAttribute("sel_subject_cd", subjectCd);
-		req.setAttribute("sel_class_num", classNum);
-		req.setAttribute("sel_ent_year", entYear);
-		req.setAttribute("sel_no", no);
 
 		// JSPへフォワード 7
 		req.getRequestDispatcher("test_regist_done.jsp").forward(req, res);
