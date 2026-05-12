@@ -4,30 +4,49 @@ import java.io.Serializable;
  
 public class TestListStudent implements Serializable {
  
-    // 入学年度
+    /**
+     *  入学年度
+     */
     private Integer entYear;
  
-    // クラス番号
+    /**
+     *  クラス番号
+     */
     private String classNum;
  
-    // 科目コード
+    /**
+     * 科目コード
+     */
     private String subjectCd;
  
-    // 科目名
+    /**
+     * 科目名
+     */
     private String subjectName;
  
-    // 学生番号
+    /**
+     *  学生番号
+     */
     private String studentNo;
  
-    // 学生名
+    /**
+     *  学生名
+     */
     private String studentName;
  
-    // 回数
+    /**
+     *  回数
+     */
     private Integer count;
  
-    // 点数
+    /**
+     *  点数
+     */
     private Integer point;
- 
+    
+    /**
+     * ゲッタ・セッタ
+     */
     public TestListStudent() {
     }
  

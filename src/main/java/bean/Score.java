@@ -7,21 +7,44 @@ import java.io.Serializable;
  * TESTテーブル: STUDENT_NO, SUBJECT_CD, SCHOOL_CD, NO, POINT, CLASS_NUM
  */
 public class Score implements Serializable {
-
+	/**
+	 * 学生番号
+	 */
     private String studentNo;
-
+    
+    /**
+     * 科目コード
+     */
     private String subjectCd;
-
+    
+    /**
+     * 学校コード
+     */
     private String schoolCd;
-
+    
+    /**
+     * 回数
+     */
     private int no;
-
+    
+    /**
+     * 点数
+     */
     private int point;
-
+    
+    /**
+     * クラス番号
+     */
     private String classNum;
 
     // --- 関連オブジェクト (JOIN取得時に使用) ---
+    /**
+     * 学生情報
+     */
     private Student student;
+    /**
+     * 科目情報
+     */
     private Subject subject;
 
     /** ゲッタ・セッタ */

@@ -4,9 +4,19 @@ import java.io.Serializable;
 
 public class Class implements Serializable {
 
+	/**
+	 * 学校コード
+	 */
     private String schoolCd;
+    
+    /**
+     * クラス番号
+     */
     private String classNum;
-
+    
+    /**
+     * ゲッタ・セッタ
+     */
     public String getSchoolCd() {
         return schoolCd;
     }

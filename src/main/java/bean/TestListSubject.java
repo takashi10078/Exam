@@ -3,14 +3,35 @@ package bean;
 import java.io.Serializable;
  
 public class TestListSubject implements Serializable {
- 
+	
+	/**
+	 * 入学年度
+	 */
     private int entYear;
+    /**
+     * クラス番号
+     */
     private String classNum;
+    /**
+     * 学生番号
+     */
     private String studentNo;
+    /**
+     * 氏名
+     */
     private String studentName;
+    /**
+     * 点数
+     */
     private Integer point1;
+    /**
+     * 点数（２回目）
+     */
     private Integer point2;
- 
+    
+    /**
+     * ゲッタ・セッタ
+     */
     public TestListSubject() {
     }
  

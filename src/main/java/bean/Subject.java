@@ -3,11 +3,21 @@ package bean;
 import java.io.Serializable;
 
 public class Subject implements Serializable {
-
+	/**
+	 * 科目コード
+	 */
     private String cd;
+    /**
+     * 科目名
+     */
     private String name;
+    /**
+     * 学校情報
+     */
     private School school;
-
+    /**
+     * ゲータ・セッタ
+     */
     public String getCd() {
         return cd;
     }
