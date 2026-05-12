@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import bean.School;
 import bean.Subject;
@@ -14,13 +12,13 @@ import bean.TestListSubject;
 
 public class TestListSubjectDao extends Dao {
 
-    // 基本となるSQL文の定義
-	private String baseSql = 
-		    " select" +
-		    "     st.ent_year, t.class_num, st.no as student_no, st.name as student_name, t.no as test_no, t.point" +
-		    " from test t" +
-		    " join student st on t.student_no = st.no and t.school_cd = st.school_cd" +
-		    " where st.ent_year = ? and t.class_num = ? and t.subject_cd = ? and t.school_cd = ?";
+    //SQL文の定義
+    private String baseSql =
+            " select" +
+            "     st.ent_year, t.class_num, st.no as student_no, st.name as student_name, t.no as test_no, t.point" +
+            " from test t" +
+            " join student st on t.student_no = st.no and t.school_cd = st.school_cd" +
+            " where st.ent_year = ? and t.class_num = ? and t.subject_cd = ? and t.school_cd = ?";
 
     /**
      * 指定した条件で成績一覧（科目別）を取得する
@@ -31,7 +29,7 @@ public class TestListSubjectDao extends Dao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        // ソート順を追加
+        // 並び順を指定
         String sql = baseSql + "order by st.no asc, t.no asc";
 
         try {
@@ -58,22 +56,34 @@ public class TestListSubjectDao extends Dao {
      * ResultSetの結果を学生ごとのリストにまとめる（後処理）
      */
     private List<TestListSubject> postFilter(ResultSet resultSet) throws Exception {
-        // 学生番号をキーとして、同一学生の回数ごとの得点をまとめるためLinkedHashMapを使用
-        Map<String, TestListSubject> map = new LinkedHashMap<>();
+
+        List<TestListSubject> list = new ArrayList<>();
+
+        // 現在処理中の学生情報を保持
+        TestListSubject testListSubject = null;
+
+        // 直前の学生番号を保持
+        String currentStudentNo = "";
 
         while (resultSet.next()) {
-            String studentNo = resultSet.getString("student_no");
-            TestListSubject testListSubject = map.get(studentNo);
 
-            // 初めて登場した学生の場合、インスタンスを作成してMapに登録
-            if (testListSubject == null) {
+            String studentNo = resultSet.getString("student_no");
+
+            // 学生番号が変わった場合、新しいインスタンスを作成
+            if (!studentNo.equals(currentStudentNo)) {
+
                 testListSubject = new TestListSubject();
+
                 testListSubject.setEntYear(resultSet.getInt("ent_year"));
                 testListSubject.setClassNum(resultSet.getString("class_num"));
                 testListSubject.setStudentNo(studentNo);
                 testListSubject.setStudentName(resultSet.getString("student_name"));
-                
-                map.put(studentNo, testListSubject);
+
+                // リストへ追加
+                list.add(testListSubject);
+
+                // 現在の学生番号を保存
+                currentStudentNo = studentNo;
             }
 
             // テスト回数(test_no)に応じて得点をセット
@@ -87,7 +97,6 @@ public class TestListSubjectDao extends Dao {
             }
         }
 
-        // Mapの値をリストに変換して返す
-        return new ArrayList<>(map.values());
+        return list;
     }
 }
