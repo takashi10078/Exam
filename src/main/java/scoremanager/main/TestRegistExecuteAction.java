@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
+//登録ボタンが押されたときの処理　バリデーションしてDBに保存する
 public class TestRegistExecuteAction extends Action {
 
 	@Override
@@ -43,7 +44,7 @@ public class TestRegistExecuteAction extends Action {
 		String[] studentNos = req.getParameterValues("student_no");
 
 		// ビジネスロジック 4
-		// 入力された点数を一時保存（エラー時に値を保持するため）
+		// 入力された点数を一時保持　エラーのとき入力値を消さないため
 		Map<String, String> inputPoints = new HashMap<>();
 		boolean hasError = false;
 
@@ -55,14 +56,19 @@ public class TestRegistExecuteAction extends Action {
 					continue;
 				}
 				inputPoints.put(studentNo, pointStr);
-				int point = Integer.parseInt(pointStr);
-				if (point < 0 || point > 100) {
+				try {
+					int point = Integer.parseInt(pointStr);
+					// 0~100以外はエラー
+					if (point < 0 || point > 100) {
+						hasError = true;
+					}
+				} catch (NumberFormatException e) {
 					hasError = true;
 				}
 			}
 		}
 
-		// エラーがあればtest_regist.jspに戻る
+		// エラーがあれば一覧画面に戻る
 		if (hasError) {
 			// 科目名を取得
 			String subjectName = "";
@@ -79,20 +85,24 @@ public class TestRegistExecuteAction extends Action {
 				entYearSet.add(i);
 			}
 
-			// 学生スコアリストを再取得してユーザー入力値を上書き
+			// 学生リストを再取得してユーザーが入力した値を上書きする
 			List<Score> scoreList = testDao.getRegistList(teacher.getSchool(), subjectCd, classNum, entYear, no);
 			if (scoreList != null) {
 				for (Score score : scoreList) {
 					String inputVal = inputPoints.get(score.getStudentNo());
 					if (inputVal != null && !inputVal.equals("")) {
-						score.setPoint(Integer.parseInt(inputVal));
+						try {
+							score.setPoint(Integer.parseInt(inputVal));
+						} catch (NumberFormatException e) {
+							score.setPoint(-999);
+						}
 					} else {
 						score.setPoint(-1);
 					}
 				}
 			}
 
-			// ドロップダウン用データも再取得
+			// ドロップダウン用のデータも再取得
 			List<Subject> subjectList = subjectDao.filter(teacher.getSchool());
 			List<String> classNumList = classNumDao.filter(teacher.getSchool());
 

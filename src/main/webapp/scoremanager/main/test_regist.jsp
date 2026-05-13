@@ -12,7 +12,7 @@
 		<section class="me-4">
 			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">成績管理</h2>
 
-			<form method="get">
+			<form method="get" action="TestRegist.action">
 				<div class="row border mx-3 mb-3 py-2 align-items-center rounded" id="filter">
 					<div class="col-2">
 						<label class="form-label" for="year-select">入学年度</label>
@@ -75,6 +75,13 @@
 						<input type="hidden" name="ent_year" value="${sel_ent_year}">
 						<input type="hidden" name="no" value="${sel_no}">
 						<table class="table table-hover mx-3">
+							<colgroup>
+								<col style="width:130px">
+								<col style="width:100px">
+								<col style="width:130px">
+								<col style="width:200px">
+								<col style="width:220px">
+							</colgroup>
 							<tr>
 								<th>入学年度</th>
 								<th>クラス</th>
@@ -90,16 +97,22 @@
 									<td>${score.studentNo}</td>
 									<td>${score.student.name}</td>
 									<td>
-										<input type="number" class="form-control form-control-sm"
+										<input type="text" class="form-control form-control-sm"
 											style="width:120px"
 											name="point_${score.studentNo}"
-											value="<c:if test='${score.point >= 0}'>${score.point}</c:if>"
-											oninput="this.style.border=''" />
-										<c:if test="${hasError && score.point > 100}">
-											<span style="color:orange; font-size:0.8em;">0〜100の範囲で入力してください</span>
-										</c:if>
-										<c:if test="${hasError && score.point < 0 && score.point != -1}">
-											<span style="color:orange; font-size:0.8em;">0〜100の範囲で入力してください</span>
+											value="<c:choose><c:when test='${inputPoints != null}'>${inputPoints[score.studentNo]}</c:when><c:when test='${score.point >= 0}'>${score.point}</c:when></c:choose>" />
+										<c:if test="${hasError}">
+											<c:set var="inputVal" value="${inputPoints[score.studentNo]}" />
+											<c:if test="${not empty inputVal}">
+												<c:catch var="ex">
+													<c:if test="${inputVal + 0 > 100 || inputVal + 0 < 0}">
+														<span style="color:orange; font-size:0.8em;">0〜100の範囲で入力してください</span>
+													</c:if>
+												</c:catch>
+												<c:if test="${ex != null}">
+													<span style="color:orange; font-size:0.8em;">0〜100の範囲で入力してください</span>
+												</c:if>
+											</c:if>
 										</c:if>
 									</td>
 								</tr>

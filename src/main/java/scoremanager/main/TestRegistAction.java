@@ -8,13 +8,14 @@ import bean.Score;
 import bean.Subject;
 import bean.Teacher;
 import dao.ClassNumDao;
-import dao.TestDao;
 import dao.SubjectDao;
+import dao.TestDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
+//成績管理一覧画面　検索条件を受け取って学生と得点を表示する
 public class TestRegistAction extends Action {
 
 	@Override
@@ -49,7 +50,7 @@ public class TestRegistAction extends Action {
 		List<String> classNumList = classNumDao.filter(teacher.getSchool());
 
 		// ビジネスロジック 4
-		// 入学年度リスト作成
+		// 入学年度のリストを作る　現在から前後10年
 		List<Integer> entYearSet = new ArrayList<>();
 		for (int i = year - 10; i <= year + 10; i++) {
 			entYearSet.add(i);
@@ -62,11 +63,11 @@ public class TestRegistAction extends Action {
 			no = Integer.parseInt(noStr);
 		}
 
-		// 科目が選択されている場合のみ学生一覧を取得
+		// 科目と回数が両方選ばれたときだけ学生一覧を取得する
 		if (subjectCd != null && !subjectCd.equals("") && no != 0) {
 			scoreList = scoreDao.getRegistList(teacher.getSchool(), subjectCd, classNum, entYear, no);
 
-			// 科目名を取得してラベル用にセット
+			// 画面に表示する科目名を取得
 			Subject subject = subjectDao.get(subjectCd, teacher.getSchool());
 			if (subject != null) {
 				subjectName = subject.getName();
@@ -83,6 +84,8 @@ public class TestRegistAction extends Action {
 		req.setAttribute("sel_class_num", classNum);
 		req.setAttribute("sel_ent_year", entYear);
 		req.setAttribute("sel_no", no);
+		req.setAttribute("inputPoints", null);
+		req.setAttribute("hasError", false);
 
 		// JSPへフォワード 7
 		req.getRequestDispatcher("test_regist.jsp").forward(req, res);

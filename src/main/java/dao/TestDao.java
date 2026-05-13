@@ -10,8 +10,10 @@ import bean.School;
 import bean.Score;
 import bean.Student;
 
+//テストテーブルのDAO
 public class TestDao extends Dao {
-
+	
+	// 学生番号・科目・学校・回数で1件取得
 	public Score get(String studentNo, String subjectCd, String schoolCd, int no) throws Exception {
 
 		Score score = null;
@@ -47,8 +49,9 @@ public class TestDao extends Dao {
 
 		return score;
 	}
-
-	// 学生一覧と既存得点を取得する（LEFT JOINで得点がない学生も含む）
+	
+		// 成績登録画面用に学生一覧と得点を取得する
+		// 得点がない学生もLEFT JOINで含める
 	public List<Score> getRegistList(School school, String subjectCd,
 			String classNum, int entYear, int no) throws Exception {
 
@@ -63,7 +66,8 @@ public class TestDao extends Dao {
 					+ "left join test t on s.no = t.student_no "
 					+ "and t.subject_cd = ? and t.school_cd = ? and t.no = ? "
 					+ "where s.school_cd = ? and s.is_attend = true";
-
+			
+			// クラスと入学年度は選択された場合のみ条件に追加
 			if (classNum != null && !classNum.equals("0") && !classNum.isEmpty()) {
 				sql += " and s.class_num = ?";
 			}
@@ -104,7 +108,8 @@ public class TestDao extends Dao {
 				} else {
 					score.setPoint(-1);
 				}
-
+				
+				// 学生情報をセット
 				Student student = new Student();
 				student.setNo(resultSet.getString("student_no"));
 				student.setName(resultSet.getString("student_name"));
@@ -123,7 +128,8 @@ public class TestDao extends Dao {
 
 		return list;
 	}
-
+	
+	// 得点を保存する　既存データがあれば更新、なければ新規登録
 	public boolean save(Score score) throws Exception {
 
 		Connection connection = getConnection();
