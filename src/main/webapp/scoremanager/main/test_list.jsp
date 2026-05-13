@@ -25,7 +25,7 @@
                         <div class="col-8">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-label small">入学年度</label>
+                                    <label class="form-label">入学年度</label>
                                     <select name="f1" class="form-select">
                                         <option value="0">--------</option>
                                         <c:forEach var="year" items="${ent_year_set}">
@@ -34,7 +34,7 @@
                                     </select>
                                 </div>
                                 <div class="col-4">
-                                    <label class="form-label small">クラス</label>
+                                    <label class="form-label">クラス</label>
                                     <select name="f2" class="form-select">
                                         <option value="0">--------</option>
                                         <c:forEach var="num" items="${class_num_set}">
@@ -43,7 +43,7 @@
                                     </select>
                                 </div>
                                 <div class="col-4">
-                                    <label class="form-label small">科目</label>
+                                    <label class="form-label">科目</label>
                                     <select name="f3" class="form-select">
                                         <option value="0">--------</option>
                                         <c:forEach var="subject" items="${subject_set}">
@@ -61,7 +61,7 @@
                 </form>
                 
                 <c:if test="${error != null}">
-                    <p class="text-warning small mt-2 ms-5">
+                    <p class="mt-2 text-warning"">
                         ${error}
                     </p>
                 </c:if>
@@ -80,7 +80,7 @@
                         <div class="col-8">
                             <div class="row">
                                 <div class="col-5">
-                                    <label class="form-label small">学生番号</label>
+                                    <label class="form-label">学生番号</label>
                                     <input
                                         type="text"
                                         name="f4"
