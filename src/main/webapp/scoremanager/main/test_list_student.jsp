@@ -1,3 +1,4 @@
+<%-- 学生別成績一覧 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
@@ -138,7 +139,7 @@
 				</form>
 			</div>
 
-			<%-- 結果表示エリア --%>
+			<%-- 結果表示 --%>
 			<div class="mt-4 px-2">
 
 				<c:choose>
@@ -180,7 +181,7 @@
 
 					</c:when>
 
-					<%-- 検索結果0件 --%>
+					<%-- 検索結果がなかった場合 --%>
 					<c:when test="${tests != null}">
 
 						<c:choose>
@@ -204,15 +205,6 @@
 						</div>
 
 					</c:when>
-
-					<%-- 初期表示 --%>
-					<c:otherwise>
-
-						<p class="text-primary small px-2">
-							科目情報を選択または学生情報を入力して検索ボタンをクリックしてください
-						</p>
-
-					</c:otherwise>
 
 				</c:choose>
 
