@@ -1,3 +1,4 @@
+<%-- 科目別成績一覧 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
@@ -109,7 +110,7 @@
                 </form>
             </div>
 
-			<%-- 案内メッセージおよび結果表示エリア --%>
+			<%-- 結果表示 --%>
 			<div class="mt-4 px-2">
 				<c:choose>
 					<c:when test="${tests != null && tests.size() > 0}">
@@ -124,60 +125,36 @@
 						</c:if>
 
 						<table class="table table-hover">
-							<c:choose>
-								<c:when test="${subject != null}">
-									<tr>
-										<th class="fw-bold">入学年度</th>
-										<th class="fw-bold">クラス</th>
-										<th class="fw-bold">学生番号</th>
-										<th class="fw-bold">氏名</th>
-										<th class="fw-bold">1回</th>
-										<th class="fw-bold">2回</th>
-									</tr>
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<th class="fw-bold">科目名</th>
-										<th class="fw-bold">科目コード</th>
-										<th class="fw-bold">回数</th>
-										<th class="fw-bold">点数</th>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-							<tbody>
-								<c:forEach var="test" items="${tests}">
-									<tr>
-										<c:choose>
-											<c:when test="${subject != null}">
-												<td>${test.entYear}</td>
-												<td>${test.classNum}</td>
-												<td>${test.studentNo}</td>
-												<td>${test.studentName}</td>
-												<td>${test.point1 != null ? test.point1 : '-'}</td>
-												<td>${test.point2 != null ? test.point2 : '-'}</td>
-											</c:when>
-											<c:otherwise>
-												<td>${test.subjectName}</td>
-												<td>${test.subjectCd}</td>
-												<td>${test.count}</td>
-												<td>${test.point}</td>
-											</c:otherwise>
-										</c:choose>
-									</tr>
-								</c:forEach>
-							</tbody>
+						    <thead class="table-light">
+						        <tr>
+						            <th>入学年度</th>
+						            <th>クラス</th>
+						            <th>学生番号</th>
+						            <th>氏名</th>
+						            <th>1回</th>
+						            <th>2回</th>
+						        </tr>
+						    </thead>
+						    <tbody>
+						        <c:forEach var="test" items="${tests}">
+						            <tr>
+						                <td>${test.entYear}</td>
+						                <td>${test.classNum}</td>
+						                <td>${test.studentNo}</td>
+						                <td>${test.studentName}</td>
+						                <td>${test.point1 != null ? test.point1 : '-'}</td>
+						                <td>${test.point2 != null ? test.point2 : '-'}</td>
+						            </tr>
+						        </c:forEach>
+						    </tbody>
 						</table>
 					</c:when>
 					
+					<%-- 学生がいなかった場合 --%>
 					<c:when test="${tests != null}">
 						<div class="px-2">学生情報が存在しませんでした。</div>
 					</c:when>
 
-					<c:otherwise>
-						<p class="text-primary small px-2">
-							科目情報を選択または学生情報を入力して検索ボタンをクリックしてください
-						</p>
-					</c:otherwise>
 				</c:choose>
 			</div>
 
