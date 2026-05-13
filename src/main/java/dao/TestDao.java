@@ -10,7 +10,7 @@ import bean.School;
 import bean.Score;
 import bean.Student;
 
-public class ScoreDao extends Dao {
+public class TestDao extends Dao {
 
 	public Score get(String studentNo, String subjectCd, String schoolCd, int no) throws Exception {
 
