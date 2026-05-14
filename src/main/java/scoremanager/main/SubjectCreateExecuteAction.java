@@ -1,5 +1,5 @@
 package scoremanager.main;
-
+ 
 import bean.Subject;
 import bean.Teacher;
 import dao.SubjectDao;
@@ -7,9 +7,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
-
+ 
 public class SubjectCreateExecuteAction extends Action{
-
+ 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		
@@ -18,16 +18,16 @@ public class SubjectCreateExecuteAction extends Action{
 		
 		// ログインユーザー取得 / login user ကိုယူခြင်း
 	    Teacher teacher = (Teacher) session.getAttribute("user");
-
+ 
 	    // ログインチェック / login မဝင်ထားရင် login page သို့ပြန်ပို့ခြင်း
 	    if (teacher == null) {
 	        req.getRequestDispatcher("login.jsp").forward(req, res);
 	        return;
 	    }
-
+ 
 		// DAO作成 / DAO ဖန်တီးခြင်း
 		SubjectDao dao = new SubjectDao();
-
+ 
 		// フォーム入力取得 / form data ကိုယူခြင်း
 		String cd = req.getParameter("cd");
 		String name = req.getParameter("name");
@@ -51,12 +51,19 @@ public class SubjectCreateExecuteAction extends Action{
 			req.getRequestDispatcher("subject_create.jsp").forward(req, res);
 			return;
 		}
+		
+		
+		Subject newSubject = new Subject();
+		newSubject.setCd(cd);
+		newSubject.setName(name);
+		newSubject.setSchool(teacher.getSchool());
 				
 		// 登録処理 / database ထဲသို့သိမ်းခြင်း
-		dao.create(cd, name, teacher.getSchool().getCd());
+		dao.save(newSubject);
 		
 		// 完了画面へ遷移 / success page သို့သွားခြင်း
 		req.getRequestDispatcher("subject_create_done.jsp").forward(req, res);
 	}
-
+ 
 }
+ 
