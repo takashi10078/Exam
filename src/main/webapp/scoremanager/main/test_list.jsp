@@ -25,7 +25,7 @@
                         <div class="col-8">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-label small">入学年度</label>
+                                    <label class="form-label">入学年度</label>
                                     <select name="f1" class="form-select">
                                         <option value="0">--------</option>
                                         <c:forEach var="year" items="${ent_year_set}">
@@ -34,7 +34,7 @@
                                     </select>
                                 </div>
                                 <div class="col-4">
-                                    <label class="form-label small">クラス</label>
+                                    <label class="form-label">クラス</label>
                                     <select name="f2" class="form-select">
                                         <option value="0">--------</option>
                                         <c:forEach var="num" items="${class_num_set}">
@@ -43,7 +43,7 @@
                                     </select>
                                 </div>
                                 <div class="col-4">
-                                    <label class="form-label small">科目</label>
+                                    <label class="form-label">科目</label>
                                     <select name="f3" class="form-select">
                                         <option value="0">--------</option>
                                         <c:forEach var="subject" items="${subject_set}">
@@ -61,7 +61,7 @@
                 </form>
                 
                 <c:if test="${error != null}">
-                    <p class="text-warning small mt-2 ms-5">
+                    <p class="mt-2 text-warning"">
                         ${error}
                     </p>
                 </c:if>
@@ -80,7 +80,7 @@
                         <div class="col-8">
                             <div class="row">
                                 <div class="col-5">
-                                    <label class="form-label small">学生番号</label>
+                                    <label class="form-label">学生番号</label>
                                     <input
                                         type="text"
                                         name="f4"
@@ -101,46 +101,8 @@
                 </form>
             </div>
 
-            <%-- 結果表示エリア --%>
-            <div class="mt-4 px-2">
-                <c:choose>
-                    <c:when test="${tests != null && tests.size() > 0}">
-                        <c:if test="${student != null}">
-                            <div class="mb-3 fw-bold px-2">氏名：${student.name}（${student.no}）</div>
-                        </c:if>
-
-                        <table class="table table-hover">
-                            <thead class="table-light">
-                                <tr>
-                                    <c:if test="${student == null}"><th>氏名</th><th>学籍番号</th></c:if>
-                                    <th>科目名</th>
-                                    <th>科目コード</th>
-                                    <th>回数</th>
-                                    <th>点数</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach var="test" items="${tests}">
-                                    <tr>
-                                        <c:if test="${student == null}">
-                                            <td>${test.studentName}</td>
-                                            <td>${test.studentNo}</td>
-                                        </c:if>
-                                        <td>${test.subjectName}</td>
-                                        <td>${test.subjectCd}</td>
-                                        <td>${test.count}</td>
-                                        <td>${test.point}</td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </c:when>
-                    
-                    <c:otherwise>
-                        <p class="text-primary small px-2">科目情報を選択または学生情報を入力して検索ボタンをクリックしてください</p>
-                    </c:otherwise>
-                </c:choose>
-            </div>
+            <p class="text-primary small px-2">科目情報を選択または学生情報を入力して検索ボタンをクリックしてください</p>
+		
 
         </section>
     </c:param>
