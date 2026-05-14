@@ -47,7 +47,7 @@ public class SubjectCreateExecuteAction extends Action{
 		Subject subject = dao.get(cd, teacher.getSchool());
 		
 		if(subject != null) {
-			req.setAttribute("duplicateError", "科目コードはすでに存在しています。");
+			req.setAttribute("duplicateError", "科目コードが重複しています");
 			req.getRequestDispatcher("subject_create.jsp").forward(req, res);
 			return;
 		}
