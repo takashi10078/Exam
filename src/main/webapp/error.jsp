@@ -131,12 +131,7 @@
 								</a>
 							</li>
 
-							<%-- クラス管理リンク --%>
-							<li class="nav-item mb-3">
-								<a href="/exam_login/scoremanager/main/ClassList.action">
-									クラス管理
-								</a>
-							</li>
+	
 						</ul>
 					</nav>
 
