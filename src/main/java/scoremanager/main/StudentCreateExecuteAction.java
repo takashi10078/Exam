@@ -67,12 +67,12 @@ public class StudentCreateExecuteAction extends Action {
 		req.setAttribute("class_num", class_num);
 
 		// JSPへフォワード 
-		if (errors.isEmpty()) { // エラーメッセージがない場合
-			// 登録完了画面にフォワード
-			req.getRequestDispatcher("student_create_done.jsp").forward(req, res);
-		} else { // エラーメッセージがある場合
-			// 登録画面にフォワード
-			req.getRequestDispatcher("StudentCreate.action").forward(req, res);
+				if (errors.isEmpty()) { // エラーメッセージがない場合
+					// 登録完了画面にフォワード
+					req.getRequestDispatcher("student_create_done.jsp").forward(req, res);
+				} else { // エラーメッセージがある場合
+					// 登録画面にフォワード
+					req.getRequestDispatcher("StudentCreate.action").forward(req, res);
 		}
 	}
 

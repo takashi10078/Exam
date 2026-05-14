@@ -64,7 +64,9 @@
 
 			<c:choose>
 				<c:when test="${score_list == null}">
-					<%-- 検索前は何も表示しない --%>
+    				<c:if test="${missingSelection}">
+        				<div class="mx-3" style="color:orange;">入学年度、クラス、科目、回数を選択してください。</div>
+    			</c:if>
 				</c:when>
 				<c:when test="${score_list.size() > 0}">
 					<div class="mx-3 mb-2">科目：${sel_subject_name}（${sel_no}回）</div>

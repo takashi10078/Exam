@@ -33,6 +33,7 @@ public class TestRegistAction extends Action {
 		int no = 0;
 		List<Score> scoreList = null;
 		String subjectName = "";
+		boolean missingSelection = false;
 		LocalDate todaysDate = LocalDate.now();
 		int year = todaysDate.getYear();
 		SubjectDao subjectDao = new SubjectDao();
@@ -62,6 +63,9 @@ public class TestRegistAction extends Action {
 		if (noStr != null && !noStr.equals("") && !noStr.equals("0")) {
 			no = Integer.parseInt(noStr);
 		}
+		
+		// 検索ボタンが押されたか確認
+		boolean searched = (entYearStr != null);
 
 		// 科目と回数が両方選ばれたときだけ学生一覧を取得する
 		if (subjectCd != null && !subjectCd.equals("") && no != 0) {
@@ -72,6 +76,11 @@ public class TestRegistAction extends Action {
 			if (subject != null) {
 				subjectName = subject.getName();
 			}
+		}
+		
+		// 検索ボタンが押されたのに結果がない場合は選択不足
+		if (searched && scoreList == null) {
+			missingSelection = true;
 		}
 
 		// レスポンス値をセット 6
@@ -86,6 +95,7 @@ public class TestRegistAction extends Action {
 		req.setAttribute("sel_no", no);
 		req.setAttribute("inputPoints", null);
 		req.setAttribute("hasError", false);
+		req.setAttribute("missingSelection", missingSelection);
 
 		// JSPへフォワード 7
 		req.getRequestDispatcher("test_regist.jsp").forward(req, res);
