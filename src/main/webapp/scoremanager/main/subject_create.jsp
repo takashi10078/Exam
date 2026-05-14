@@ -53,6 +53,7 @@
 						id="cd"
 						name="cd"
 						value="${cd}"
+						required
 						placeholder="科目コードを入力してください" />
 
 					<%-- 桁数エラーチェック --%>
