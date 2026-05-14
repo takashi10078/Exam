@@ -16,7 +16,7 @@ public class SubjectListAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-        // セッション取得 / session ကိုယူခြင်း
+        // セッション取得 / session 
         HttpSession session = req.getSession();
         
         // ログインユーザー取得 / login user ကိုယူခြင်း
