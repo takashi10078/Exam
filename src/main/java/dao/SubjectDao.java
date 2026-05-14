@@ -181,105 +181,12 @@ public class SubjectDao extends Dao {
         return list;
     }
 
-    // Subject အသစ် database ထဲသို့ထည့်သော method
-    // 新しいSubjectをデータベースへ追加するメソッド
-    public void create(String cd,String name,String school_cd)throws Exception{
-
-        // Database connection ရယူ
-        // データベース接続を取得
-        Connection connection = getConnection();
-
-        // PreparedStatement ကြေညာ
-        // PreparedStatementを宣言
-        PreparedStatement statement = null;
-
-        try {
-
-            // INSERT SQL ပြင်ဆင်
-            // INSERT SQLを準備
-            statement = connection.prepareStatement(
-                "INSERT INTO SUBJECT VALUES (?,?,?)"
-            );
-
-            // subject code ထည့်
-            // subject codeを設定
-            statement.setString(2, cd);
-
-            // subject name ထည့်
-            // subject nameを設定
-            statement.setString(3, name);
-
-            // school code ထည့်
-            // school codeを設定
-            statement.setString(1,school_cd);
-
-            // INSERT execute
-            // INSERTを実行
-            statement.executeUpdate();
-
-        } finally {
-
-            // statement close
-            // statementを閉じる
-            if (statement != null) statement.close();
-
-            // connection close
-            // connectionを閉じる
-            if (connection != null) connection.close();
-        }
-    }
-
-    // Subject name ကို update လုပ်သော method
-    // Subject名を更新するメソッド
-    public void update(String cd,String name,String school_cd)throws Exception{
-
-        // Database connection ရယူ
-        // データベース接続を取得
-        Connection connection = getConnection();
-
-        // PreparedStatement ကြေညာ
-        // PreparedStatementを宣言
-        PreparedStatement statement = null;
-
-        try {
-
-            // UPDATE SQL ပြင်ဆင်
-            // UPDATE SQLを準備
-            statement = connection.prepareStatement(
-                "UPDATE SUBJECT SET name=? where cd=? and school_cd = ?"
-            );
-
-            // subject name update value
-            // 更新するsubject nameを設定
-            statement.setString(1,name);
-
-            // subject code set
-            // subject codeを設定
-            statement.setString(2,cd);
-
-            // school code set
-            // school codeを設定
-            statement.setString(3, school_cd);
-
-            // UPDATE execute
-            // UPDATEを実行
-            statement.executeUpdate();
-
-        } finally {
-
-            // statement close
-            // statementを閉じる
-            if (statement != null) statement.close();
-
-            // connection close
-            // connectionを閉じる
-            if (connection != null) connection.close();
-        }
-    }
+    
+    
 
     // Subject ကို delete လုပ်သော method
     // Subjectを削除するメソッド
-    public void delete(String cd,String school_cd)throws Exception{
+    public void delete(Subject subject)throws Exception{
 
         // Database connection ရယူ
         // データベース接続を取得
@@ -299,11 +206,11 @@ public class SubjectDao extends Dao {
 
             // subject code set
             // subject codeを設定
-            statement.setString(1,cd);
+            statement.setString(1,subject.getCd());
 
             // school code set
             // school codeを設定
-            statement.setString(2, school_cd);
+            statement.setString(2, subject.getSchool().getCd());
 
             // DELETE execute
             // DELETEを実行
@@ -320,4 +227,81 @@ public class SubjectDao extends Dao {
             if (connection != null) connection.close();
         }
     }
+    
+    public boolean save(Subject subject)throws Exception{
+
+        // Database connection ရယူ
+        // データベース接続を取得
+        Connection connection = getConnection();
+        int count = 0;
+
+        // PreparedStatement ကြေညာ
+        // PreparedStatementを宣言
+        PreparedStatement statement = null;
+
+        try {
+        	
+        	Subject old = get(subject.getCd(),subject.getSchool());
+        	
+        	if(old == null) {
+        		// INSERT SQL ပြင်ဆင်
+                // INSERT SQLを準備
+                statement = connection.prepareStatement(
+                    "INSERT INTO SUBJECT VALUES (?,?,?)"
+                );
+
+                // subject code ထည့်
+                // subject codeを設定
+                statement.setString(2,subject.getCd());
+
+                // subject name ထည့်
+                // subject nameを設定
+                statement.setString(3, subject.getName());
+
+                // school code ထည့်
+                // school codeを設定
+                statement.setString(1,subject.getSchool().getCd());
+        	}else {
+        		// INSERT SQL ပြင်ဆင်
+                // INSERT SQLを準備
+                statement = connection.prepareStatement(
+                    "UPDATE SUBJECT SET NAME = ? WHERE SCHOOL_CD = ? AND CD = ?"
+                );
+
+                // subject code ထည့်
+                // subject codeを設定
+                statement.setString(3,subject.getCd());
+
+                // subject name ထည့်
+                // subject nameを設定
+                statement.setString(1, subject.getName());
+
+                // school code ထည့်
+                // school codeを設定
+                statement.setString(2,subject.getSchool().getCd());
+        	}
+
+            
+
+            // INSERT execute
+            // INSERTを実行
+            count = statement.executeUpdate();
+
+        } finally {
+
+            // statement close
+            // statementを閉じる
+            if (statement != null) statement.close();
+
+            // connection close
+            // connectionを閉じる
+            if (connection != null) connection.close();
+        }
+        if (count > 0) {
+        	return true;
+        } else {
+        	return false;
+        }
+    }
+
 }

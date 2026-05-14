@@ -51,9 +51,15 @@ public class SubjectCreateExecuteAction extends Action{
 			req.getRequestDispatcher("subject_create.jsp").forward(req, res);
 			return;
 		}
+		
+		
+		Subject newSubject = new Subject();
+		newSubject.setCd(cd);
+		newSubject.setName(name);
+		newSubject.setSchool(teacher.getSchool());
 				
 		// 登録処理 / database ထဲသို့သိမ်းခြင်း
-		dao.create(cd, name, teacher.getSchool().getCd());
+		dao.save(newSubject);
 		
 		// 完了画面へ遷移 / success page သို့သွားခြင်း
 		req.getRequestDispatcher("subject_create_done.jsp").forward(req, res);

@@ -1,5 +1,6 @@
 package scoremanager.main;
 
+import bean.Subject;
 import bean.Teacher;
 import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,8 +25,11 @@ public class SubjectDeleteExecuteAction extends Action {
 		// DAO作成 / DAO ဖန်တီးခြင်း
 		SubjectDao dao = new SubjectDao();
 		
+		Subject subject = new Subject();
+		subject.setCd(cd);
+		subject.setSchool(teacher.getSchool());
 		// データ削除 / database ထဲက subject ကိုဖျက်ခြင်း
-		dao.delete(cd, teacher.getSchool().getCd());
+		dao.delete(subject);
 		
 		// 完了画面へ遷移 / success page သို့သွားခြင်း
 		req.getRequestDispatcher("subject_delete_done.jsp").forward(req, res);

@@ -49,9 +49,14 @@ public class SubjectUpdateExecuteAction extends Action{
 			req.getRequestDispatcher("subject_update.jsp").forward(req, res);
 			return;
 		}
+		Subject updatedSubject = new Subject();
+		updatedSubject.setCd(cd);
+		updatedSubject.setName(name);
+		updatedSubject.setSchool(teacher.getSchool());
+		
 		
 		// 更新処理 / database update လုပ်ခြင်း
-		dao.update(cd, name, teacher.getSchool().getCd());
+		dao.save(updatedSubject);
 		
 		// 完了画面へ遷移 / success page သို့သွားခြင်း
 		req.getRequestDispatcher("subject_update_done.jsp").forward(req, res);
