@@ -120,12 +120,8 @@
 							<div class="mb-3 px-2">科目：${subject.name}</div>
 						</c:if>
 
-						<c:if test="${student != null}">
-							<div class="mb-3 px-2 fw-bold">氏名：${student.name}（${student.no}）</div>
-						</c:if>
-
 						<table class="table table-hover">
-						    <thead class="table-light">
+						    <thead>
 						        <tr>
 						            <th>入学年度</th>
 						            <th>クラス</th>
