@@ -101,7 +101,7 @@
                 </form>
             </div>
 
-            <p class="text-primary small px-2">科目情報を選択または学生情報を入力して検索ボタンをクリックしてください</p>
+            <p class="text-info small px-2">科目情報を選択または学生情報を入力して検索ボタンをクリックしてください</p>
 		
 
         </section>
