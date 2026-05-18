@@ -24,7 +24,7 @@
                         
                         <div class="col-8">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-3">
                                     <label class="form-label">入学年度</label>
                                     <select name="f1" class="form-select">
                                         <option value="0">--------</option>
@@ -33,7 +33,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <label class="form-label">クラス</label>
                                     <select name="f2" class="form-select">
                                         <option value="0">--------</option>
@@ -42,7 +42,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-6">
                                     <label class="form-label">科目</label>
                                     <select name="f3" class="form-select">
                                         <option value="0">--------</option>
@@ -77,9 +77,9 @@
                             <p class="mb-0 text-center">学生情報</p>
                         </div>
 
-                        <div class="col-8">
+                        <div class="col-4">
                             <div class="row">
-                                <div class="col-5">
+                                <div class="col-12">
                                     <label class="form-label">学生番号</label>
                                     <input
                                         type="text"
