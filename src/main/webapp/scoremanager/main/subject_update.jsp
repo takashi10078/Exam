@@ -51,7 +51,7 @@
 				<%-- エラーメッセージ表示 --%>
 				<c:if test="${error != null }">
 
-					<div class="text-danger mt-2">
+					<div class="text-warning">
 
 						<%-- エラーメッセージ表示 --%>
 						${error}

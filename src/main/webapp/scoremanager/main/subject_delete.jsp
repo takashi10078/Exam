@@ -34,7 +34,7 @@
 			<div id="wrap_box">
 
 				<%-- 削除確認メッセージ --%>
-				<p class="text-center" style="background-color:#8cc3a9">
+				<p>
 
 					「${subject.name}(${subject.cd})」を削除してもよろしいですか。
 

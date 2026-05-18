@@ -61,7 +61,7 @@
 					<c:if test="${lengthError != null }">
 
 						<%-- 桁数エラーメッセージ表示 --%>
-						<div class="text-danger">
+						<div class="text-warning">
 
 							${lengthError}
 
@@ -73,7 +73,7 @@
 					<c:if test="${duplicateError != null }">
 
 						<%-- 重複エラーメッセージ表示 --%>
-						<div class="text-danger">
+						<div class="text-warning">
 
 							${duplicateError}
 
